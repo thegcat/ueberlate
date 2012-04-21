@@ -1,0 +1,111 @@
+% Schriftgröße, Layout, Papierformat, Art des Dokumentes
+\documentclass[12pt,oneside,a4paper]{scrartcl}
+
+% Einstellungen der Seitenränder
+\usepackage[left=4cm,right=3cm,top=2cm,bottom=2cm,includeheadfoot]{geometry}
+
+% Bessere fixed-width font
+\usepackage{inconsolata}
+
+% Umlaute ermöglichen, Eingaben als UTF-8 bearbeiten
+\usepackage[ngerman]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Komma als Dezimaltrenner
+\usepackage{ziffer}
+
+% Solarized Farben https://gist.github.com/1500974
+\usepackage{xcolor}
+\definecolor{solarized@base03}{HTML}{002B36}
+\definecolor{solarized@base02}{HTML}{073642}
+\definecolor{solarized@base01}{HTML}{586e75}
+\definecolor{solarized@base00}{HTML}{657b83}
+\definecolor{solarized@base0}{HTML}{839496}
+\definecolor{solarized@base1}{HTML}{93a1a1}
+\definecolor{solarized@base2}{HTML}{EEE8D5}
+\definecolor{solarized@base3}{HTML}{FDF6E3}
+\definecolor{solarized@yellow}{HTML}{B58900}
+\definecolor{solarized@orange}{HTML}{CB4B16}
+\definecolor{solarized@red}{HTML}{DC322F}
+\definecolor{solarized@magenta}{HTML}{D33682}
+\definecolor{solarized@violet}{HTML}{6C71C4}
+\definecolor{solarized@blue}{HTML}{268BD2}
+\definecolor{solarized@cyan}{HTML}{2AA198}
+\definecolor{solarized@green}{HTML}{859900}
+
+% Zeichnen
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.3}
+
+% Code mit Highlighting
+% bessere Ergebnisse liefert das Package minted, klappt aber nicht überall…
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  upquote=true,
+  columns=fixed,
+  tabsize=2,
+  extendedchars=true,
+  % Teile der Eingabe zwischen § werden als TeX interpretiert
+  escapechar=§,
+  inputencoding=utf8x,
+  literate=
+    {ä}{{\"a}}1
+    {ö}{{\"o}}1
+    {ü}{{\"u}}1
+    {ß}{{\ss}}1,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  stepnumber=5,
+  numberfirstline=false,
+  firstnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{solarized@base3},
+  rulesepcolor=\color{solarized@base03},
+  numberstyle=\tiny\color{solarized@base01},
+  basicstyle=\color{solarized@base00}\footnotesize\ttfamily,
+  keywordstyle=\color{solarized@green},
+  stringstyle=\color{solarized@cyan}\ttfamily,
+  identifierstyle=\color{solarized@blue},
+  commentstyle=\color{solarized@base01},
+  emphstyle=\color{solarized@red},
+}
+
+% Kopf- und Fußzeile
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+% Funktionen zur Stringmanipulation
+\usepackage{xstring}
+
+% Bessere enumerates
+\usepackage{enumerate}
+
+% Blattnummer vom Dateinamen in \blattnr speichern
+% \blattnrnlz ist die Variante ohne führende 0 (no leading zero)
+\StrBefore*{\jobname}{_abgabe}[\blattnr]
+\StrBehind{\blattnr}{0}[\blattnrnlz]
+
+% Kopfzeile links bzw. innen
+\fancyhead[L]{\input{../_title}\unskip~- Blatt \blattnrnlz\\}
+% Kopfzeile rechts bzw. außen
+\fancyhead[R]{\input{../Uebung/_teilnehmer}\unskip}
+% Linie oben
+\renewcommand{\headrulewidth}{0.5pt}
+
+% Fußzeile rechts bzw. außen
+\fancyfoot[C]{\thepage}
+% Linie unten
+\renewcommand{\footrulewidth}{0pt}
+
+% Abkürzung zum hinzufügen von Aufgaben
+\newcommand{\aufgabe}[1]{
+  \section*{Aufgabe \blattnrnlz.#1}
+  \input{../Uebung/\blattnr_aufgabe_#1}
+  \pagebreak
+}
